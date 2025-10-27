@@ -8,7 +8,7 @@ function setBatteryLevel(level) {
   if (fillRect) {
     fillRect.setAttribute('width', fillWidth);
     fillRect.setAttribute('fill', level < 0.2 ? '#ff4444' : 'white');
-  } 
+  }
 }
 
 // Try to use Battery Status API

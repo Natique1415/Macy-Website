@@ -185,40 +185,35 @@ body {
   transform: scale(1.2);
 }
 
+/* Dock and Icon Styles */
 .bottom-icons {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  /* Changed from 50px to 0 to touch the bottom */
   display: flex;
   justify-content: center;
   z-index: 10;
-  padding-bottom: 8px;
-  /* Small padding so dock doesn't touch the very edge */
+  padding-bottom: 12px;
 }
-
 
 .icon-group {
   display: flex;
-  gap: 45px;
+  gap: 35px;
+  /* Reduced from 45px to create more consistent spacing */
   align-items: center;
-
-  /* Enhanced iOS-style glassy background */
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px) saturate(1.3);
   -webkit-backdrop-filter: blur(20px) saturate(1.3);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
   padding: 12px 20px;
-
-  /* Enhanced iOS-style shadow with outer glow */
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.35),
     0 0 0 0.5px rgba(255, 255, 255, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-
   position: relative;
+  transition: all 0.3s ease;
 }
 
 .icon-item {
@@ -228,29 +223,74 @@ body {
   justify-content: center;
   transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
+  position: relative;
 }
 
 .social-icon {
   width: 40px;
   height: 40px;
   margin-bottom: 0;
-  /* Remove bottom margin */
   transition: transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
   background: transparent;
+  object-fit: contain;
+}
+
+.icon-item:hover .social-icon {
+  transform: scale(1.1);
+}
+
+.icon-item:hover .icon-label {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .icon-label {
   color: #fff;
   opacity: 0;
-  /* Hide labels by default since they're causing alignment issues */
   font-size: 1.1rem;
   font-family: 'Inter', Arial, sans-serif;
   letter-spacing: 1px;
   margin-top: 0;
-  /* Remove top margin */
   position: absolute;
-  /* Position absolutely so they don't affect layout */
   top: -25px;
-  /* Position above the icon */
+  transform: translateY(10px);
+  transition: all 0.2s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* Enhanced hover effects */
+.icon-group:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+.icon-item:active .social-icon {
+  transform: scale(0.95);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .icon-group {
+    gap: 30px;
+    padding: 10px 15px;
+  }
+
+  .social-icon {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .icon-group {
+    gap: 20px;
+    padding: 8px 12px;
+  }
+
+  .social-icon {
+    width: 30px;
+    height: 30px;
+  }
 }

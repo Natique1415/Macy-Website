@@ -2,35 +2,33 @@
 document.addEventListener('DOMContentLoaded', function () {
   const dock = document.getElementById('mac-dock');
   const items = Array.from(dock.querySelectorAll('.icon-item'));
-  const maxScale = 1.5; // 60px (from 40px)
-  const midScale = 1.2; // 48px
-  const minScale = 1;   // 40px
 
-  // Helper: Find which icon is nearest to mouse
+  // Adjusted scale values for more balanced appearance
+  const maxScale = 1.5;  // Main hover scale
+  const minScale = 1;    // Base scale
+
+  // Helper: Calculate distance-based scale
+  function calculateScale(distance, maxDistance) {
+    if (distance > maxDistance) return minScale;
+    const scale = maxScale - (distance / maxDistance) * (maxScale - minScale);
+    return Math.max(minScale, Math.min(maxScale, scale));
+  }
+
+  // Enhanced mousemove handler with smoother transitions
   dock.addEventListener('mousemove', function (e) {
     const dockRect = dock.getBoundingClientRect();
     const mouseX = e.clientX - dockRect.left;
-    let closestIdx = 0;
-    let minDist = Infinity;
-    items.forEach((item, idx) => {
-      const iconRect = item.getBoundingClientRect();
-      const iconCenter = iconRect.left - dockRect.left + iconRect.width / 2;
-      const dist = Math.abs(mouseX - iconCenter);
-      if (dist < minDist) {
-        minDist = dist;
-        closestIdx = idx;
-      }
-    });
+    const maxDistance = 100; // Maximum distance for scale effect
 
-    // Apply scaling
-    items.forEach((item, idx) => {
-      if (idx === closestIdx) {
-        item.style.transform = `scale(${maxScale})`;
-      } else if (idx === closestIdx - 1 || idx === closestIdx + 1) {
-        item.style.transform = `scale(${midScale})`;
-      } else {
-        item.style.transform = `scale(${minScale})`;
-      }
+    items.forEach((item) => {
+      const itemRect = item.getBoundingClientRect();
+      const itemCenter = itemRect.left - dockRect.left + itemRect.width / 2;
+      const distance = Math.abs(mouseX - itemCenter);
+
+      // Calculate and apply scale based on distance
+      const scale = calculateScale(distance, maxDistance);
+      item.style.transform = `scale(${scale})`;
+      item.style.transition = 'transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
     });
   });
 
@@ -38,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
   dock.addEventListener('mouseleave', function () {
     items.forEach(item => {
       item.style.transform = `scale(${minScale})`;
+      item.style.transition = 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
     });
   });
 });
