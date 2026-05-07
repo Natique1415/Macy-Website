@@ -160,30 +160,6 @@ body {
   /* Make black icons white */
 }
 
-/* Name Select SVG Section */
-.name-select-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* centers horizontally */
-  justify-content: flex-start;
-  margin-top: 160px;
-  /* space below nav-bar, adjust as needed */
-  width: 100%;
-}
-
-/* Center and size the SVG object below the nav-bar */
-#nameSelect.nav-bar {
-  display: block;
-  margin: 0 auto;
-  max-width: 370px;
-  width: 100%;
-  height: auto;
-  background: none;
-  box-shadow: none;
-  border: none;
-  transform: scale(1.2);
-}
 
 /* Dock and Icon Styles */
 .bottom-icons {
