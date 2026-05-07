@@ -249,6 +249,179 @@ body {
   transform: scale(0.95);
 }
 
+/* ===== DESKTOP RESUME ICON ===== */
+.desktop-icon {
+  position: fixed;
+  bottom: 100px;
+  left: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 20;
+  width: 64px;
+  user-select: none;
+}
+
+.desktop-icon-img {
+  width: 56px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  transition: filter 0.18s ease, transform 0.18s ease;
+}
+
+.desktop-icon-img svg {
+  width: 100%;
+  height: 100%;
+}
+
+.desktop-icon:hover .desktop-icon-img {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)) brightness(1.35);
+}
+
+.desktop-icon-label {
+  color: #fff;
+  font-size: 11px;
+  font-family: "SF Pro Display", "Inter", sans-serif;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  background: rgba(0,0,0,0.25);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+@keyframes desktopIconBounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.25); }
+  55%  { transform: scale(0.92); }
+  75%  { transform: scale(1.1); }
+  90%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+.desktop-icon.bounce .desktop-icon-img {
+  animation: desktopIconBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ===== RESUME OVERLAY ===== */
+.resume-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 900;
+}
+
+.resume-overlay.visible {
+  display: block;
+}
+
+/* ===== RESUME WINDOW ===== */
+.resume-window {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  width: 700px;
+  height: 85vh;
+  background: rgba(30,30,30,0.95);
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.75);
+  overflow: hidden;
+  z-index: 901;
+  opacity: 0;
+  flex-direction: column;
+}
+
+.resume-window.open {
+  display: flex;
+  animation: windowOpen 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.resume-window.close {
+  display: flex;
+  animation: windowClose 0.2s ease-in forwards;
+}
+
+@keyframes windowOpen {
+  from { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+  to   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+}
+
+@keyframes windowClose {
+  from { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+  to   { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+}
+
+.resume-titlebar {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  min-height: 42px;
+  background: rgba(45,45,45,0.98);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 0 14px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 1;
+}
+
+.tl {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.tl-red    { background: #ff5f57; }
+.tl-yellow { background: #febc2e; cursor: default; }
+.tl-green  { background: #28c840; cursor: default; }
+
+.tl-red:hover { filter: brightness(1.2); }
+
+.resume-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-family: "SF Pro Display", "Inter", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  pointer-events: none;
+}
+
+.resume-body {
+  flex: 1;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.resume-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .icon-group {
