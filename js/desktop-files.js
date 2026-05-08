@@ -115,10 +115,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileName = getFileName(file);
 
     if (folderName) {
-      return `desktop-files/${encodeURIComponent(folderName)}/${encodeURIComponent(fileName)}`;
+      return `Desktop/${encodeURIComponent(folderName)}/${encodeURIComponent(fileName)}`;
     }
 
-    return `desktop-files/${encodeURIComponent(fileName)}`;
+    return `Desktop/${encodeURIComponent(fileName)}`;
   }
 
   function openFileUrl(url) {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function getDisplayPath(pathValue, fallbackName) {
-    const rawPath = pathValue || `desktop-files/${fallbackName}`;
+    const rawPath = pathValue || `Desktop/${fallbackName}`;
 
     return String(rawPath).split('/').filter(Boolean).join(' / ');
   }
