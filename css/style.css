@@ -252,8 +252,9 @@ body {
 /* ===== DESKTOP RESUME ICON ===== */
 .desktop-icon {
   position: fixed;
-  bottom: 100px;
-  left: 32px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -334,6 +335,8 @@ body {
   transform: translate(-50%, -50%) scale(0.85);
   width: 700px;
   height: 85vh;
+  min-width: 400px;
+  min-height: 300px;
   background: rgba(30,30,30,0.95);
   border-radius: 12px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.75);
@@ -341,6 +344,79 @@ body {
   z-index: 901;
   opacity: 0;
   flex-direction: column;
+}
+
+.resize-handle {
+  position: absolute;
+  z-index: 4;
+}
+
+.resize-handle-n {
+  top: 0;
+  left: 14px;
+  right: 14px;
+  height: 8px;
+  cursor: n-resize;
+}
+
+.resize-handle-s {
+  bottom: 0;
+  left: 14px;
+  right: 14px;
+  height: 8px;
+  cursor: s-resize;
+}
+
+.resize-handle-e {
+  top: 14px;
+  right: 0;
+  bottom: 14px;
+  width: 8px;
+  cursor: e-resize;
+}
+
+.resize-handle-w {
+  top: 14px;
+  left: 0;
+  bottom: 14px;
+  width: 8px;
+  cursor: w-resize;
+}
+
+.resize-handle-nw,
+.resize-handle-ne,
+.resize-handle-sw,
+.resize-handle-se {
+  width: 14px;
+  height: 14px;
+}
+
+.resize-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+}
+
+.resize-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+}
+
+.resize-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+}
+
+.resize-handle-se {
+  right: 0;
+  bottom: 0;
+  cursor: se-resize;
+}
+
+.resume-window.resizing iframe {
+  pointer-events: none;
 }
 
 .resume-window.open {
@@ -361,6 +437,28 @@ body {
 @keyframes windowClose {
   from { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
   to   { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+}
+
+.resume-window.positioned {
+  transform: none;
+}
+
+.resume-window.positioned.open {
+  animation: positionedWindowOpen 0.18s ease-out forwards;
+}
+
+.resume-window.positioned.close {
+  animation: positionedWindowClose 0.16s ease-in forwards;
+}
+
+@keyframes positionedWindowOpen {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes positionedWindowClose {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 .resume-titlebar {
@@ -388,12 +486,56 @@ body {
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
+  position: relative;
   transition: filter 0.15s ease;
 }
 
 .tl-red    { background: #ff5f57; }
 .tl-yellow { background: #febc2e; cursor: default; }
 .tl-green  { background: #28c840; cursor: default; }
+
+.tl::before,
+.tl::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 1.3px;
+  background: rgba(0,0,0,0.58);
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.tl-red::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.tl-red::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.tl-yellow::before {
+  transform: translate(-50%, -50%);
+}
+
+.tl-yellow::after {
+  display: none;
+}
+
+.tl-green::before {
+  transform: translate(-50%, -50%);
+}
+
+.tl-green::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.traffic-lights:hover .tl::before,
+.traffic-lights:hover .tl::after {
+  opacity: 1;
+}
 
 .tl-red:hover { filter: brightness(1.2); }
 
