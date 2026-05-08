@@ -295,8 +295,21 @@ body {
   gap: 6px;
   cursor: pointer;
   z-index: 20;
-  width: 64px;
+  width: 88px;
+  padding: 6px 6px 5px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: transparent;
+  transition: background 0.15s ease;
   user-select: none;
+}
+
+.desktop-icon:hover {
+  background: rgba(99,149,255,0.2);
+}
+
+.desktop-icon.selected {
+  background: rgba(99,149,255,0.35);
 }
 
 .desktop-icon.positioned {
@@ -332,7 +345,7 @@ body {
 }
 
 .desktop-folder-icon {
-  width: 76px;
+  width: 88px;
 }
 
 .desktop-folder-icon .desktop-icon-img {
@@ -366,17 +379,22 @@ body {
   text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
   letter-spacing: 0.2px;
   white-space: nowrap;
+  max-width: 76px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background: rgba(0,0,0,0.25);
   padding: 1px 6px;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .desktop-folder-icon .desktop-icon-label,
 .desktop-file-icon .desktop-icon-label {
-  max-width: 88px;
+  max-width: 76px;
   line-height: 1.15;
-  white-space: normal;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @keyframes desktopIconBounce {

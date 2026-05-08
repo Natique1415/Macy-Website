@@ -258,6 +258,16 @@ document.addEventListener('DOMContentLoaded', function () {
       iconEl.setAttribute('role', 'button');
     }
 
+    function selectIcon() {
+      document.querySelectorAll('.desktop-icon.selected').forEach(function (selectedIcon) {
+        if (selectedIcon !== iconEl) {
+          selectedIcon.classList.remove('selected');
+        }
+      });
+
+      iconEl.classList.add('selected');
+    }
+
     function getTargetWindow() {
       const targetId = options.windowId || iconEl.dataset.windowTarget;
 
@@ -307,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.button !== 0) return;
 
       e.preventDefault();
+      selectIcon();
 
       const rect = iconEl.getBoundingClientRect();
 
@@ -365,12 +376,14 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.key !== 'Enter' && e.key !== ' ') return;
 
       e.preventDefault();
+      selectIcon();
       openIconTarget();
     });
 
     iconEl.__desktopIcon = {
       open: openIconTarget,
-      setPosition: setIconPosition
+      setPosition: setIconPosition,
+      select: selectIcon
     };
 
     return iconEl.__desktopIcon;
