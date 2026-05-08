@@ -730,17 +730,19 @@ body {
   padding: 6px 10px;
   border-radius: 6px;
   color: #fff;
-  background: rgba(10,132,255,0.8);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
   font-size: 12px;
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  transition: background 0.14s ease, transform 0.14s ease;
+  transition: background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
 }
 
 .folder-file-open:hover,
 .folder-file-open:focus-visible {
-  background: rgba(10,132,255,1);
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.22);
   outline: none;
 }
 
