@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
       name: 'Resume PDF',
       description: 'Open resume PDF',
       url: 'https://natique1415.github.io/Macy-Website/resume.pdf',
-      icon: null
+      iconType: 'pdf'
     }
   ];
 
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let activeIndex = 0;
 
   function escapeHtml(value) {
-    return value.replace(/[&<>"']/g, function (char) {
+    return String(value).replace(/[&<>"']/g, function (char) {
       return {
         '&': '&amp;',
         '<': '&lt;',
@@ -64,10 +64,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function getIconMarkup(item) {
     if (item.icon) {
-      return `<img src="${item.icon}" alt="" />`;
+      return `<img src="${escapeHtml(item.icon)}" alt="" />`;
     }
 
-    return '<span class="spotlight-pdf-icon">PDF</span>';
+    if (item.iconType === 'folder') {
+      return `
+        <span class="spotlight-folder-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 7.5C2 5.8 3.35 4.45 5.05 4.45H12.4L15.15 7.25H26.95C28.65 7.25 30 8.6 30 10.3V20.95C30 22.65 28.65 24 26.95 24H5.05C3.35 24 2 22.65 2 20.95V7.5Z" fill="#5CA8FF"/>
+            <path d="M2 10.4H30V20.95C30 22.65 28.65 24 26.95 24H5.05C3.35 24 2 22.65 2 20.95V10.4Z" fill="#2F86F6"/>
+            <path d="M4.4 9.15H27.6" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+          </svg>
+        </span>
+      `;
+    }
+
+    if (item.iconType === 'file') {
+      return '<span class="spotlight-file-icon" aria-hidden="true">FILE</span>';
+    }
+
+    return '<span class="spotlight-pdf-icon" aria-hidden="true">PDF</span>';
   }
 
   function renderResults() {
@@ -96,7 +112,9 @@ document.addEventListener('DOMContentLoaded', function () {
         || item.description.toLowerCase().includes(query);
     });
 
-    activeIndex = filteredItems.length ? Math.min(activeIndex, filteredItems.length - 1) : -1;
+    activeIndex = filteredItems.length
+      ? Math.max(0, Math.min(activeIndex, filteredItems.length - 1))
+      : -1;
     renderResults();
   }
 
@@ -121,9 +139,38 @@ document.addEventListener('DOMContentLoaded', function () {
   function openResult(item) {
     if (!item) return;
 
-    window.open(item.url, '_blank', 'noopener');
+    if (typeof item.action === 'function') {
+      item.action();
+    } else if (item.url) {
+      window.open(item.url, '_blank', 'noopener');
+    }
+
     closeSpotlight();
   }
+
+  function addItems(nextItems) {
+    if (!Array.isArray(nextItems)) return;
+
+    nextItems.forEach(function (item) {
+      if (item && item.name && item.description) {
+        items.push(item);
+      }
+    });
+
+    filterResults();
+  }
+
+  window.spotlightControls = {
+    addItems,
+    refresh: filterResults,
+    getItems: function () {
+      return items.slice();
+    }
+  };
+
+  document.addEventListener('desktopManifestItemsReady', function (e) {
+    addItems(e.detail && e.detail.items);
+  });
 
   trigger.addEventListener('click', openSpotlight);
   input.addEventListener('input', filterResults);

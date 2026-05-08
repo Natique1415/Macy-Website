@@ -1,0 +1,100 @@
+name: Generate Manifest
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  generate-manifest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate manifest
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const repoRoot = process.cwd();
+          const desktopFilesDir = path.join(repoRoot, 'desktop-files');
+
+          function toRepoRelative(filePath) {
+            return path.relative(repoRoot, filePath).split(path.sep).join('/');
+          }
+
+          function collectFiles(folderPath) {
+            const entries = fs.readdirSync(folderPath, { withFileTypes: true })
+              .sort((a, b) => a.name.localeCompare(b.name));
+
+            const files = [];
+
+            for (const entry of entries) {
+              const entryPath = path.join(folderPath, entry.name);
+
+              if (entry.isDirectory()) {
+                files.push(...collectFiles(entryPath));
+                continue;
+              }
+
+              if (entry.isFile()) {
+                files.push({
+                  name: entry.name,
+                  path: toRepoRelative(entryPath)
+                });
+              }
+            }
+
+            return files;
+          }
+
+          const manifest = fs.existsSync(desktopFilesDir)
+            ? fs.readdirSync(desktopFilesDir, { withFileTypes: true })
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .flatMap(entry => {
+                  const entryPath = path.join(desktopFilesDir, entry.name);
+
+                  if (entry.isDirectory()) {
+                    return {
+                      type: 'folder',
+                      name: entry.name,
+                      path: toRepoRelative(entryPath),
+                      files: collectFiles(entryPath)
+                    };
+                  }
+
+                  if (entry.isFile()) {
+                    return {
+                      type: 'file',
+                      name: entry.name,
+                      path: toRepoRelative(entryPath)
+                    };
+                  }
+
+                  return [];
+                })
+            : [];
+
+          fs.writeFileSync(
+            path.join(repoRoot, 'manifest.json'),
+            `${JSON.stringify(manifest, null, 2)}\n`
+          );
+          NODE
+
+      - name: Commit manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add manifest.json
+          if git diff --cached --quiet; then
+            echo "manifest.json is already up to date"
+          else
+            git commit -m "Generate manifest"
+            git push
+          fi

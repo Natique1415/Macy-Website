@@ -1,181 +1,399 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const icon    = document.getElementById('resumeIcon');
-  const overlay = document.getElementById('resumeOverlay');
-  const window_ = document.getElementById('resumeWindow');
-  const closeBtn = document.getElementById('resumeClose');
-  const titlebar = window_.querySelector('.resume-titlebar');
-  const iframe = window_.querySelector('iframe');
-  const resizeHandles = window_.querySelectorAll('[data-resize-handle]');
   const minWidth = 400;
   const minHeight = 300;
-  let activeResize = null;
-  let activeDrag = null;
+  let topWindowZIndex = 901;
 
-  function openWindow() {
-    overlay.classList.add('visible');
-    window_.style.display = '';
-    window_.classList.remove('close');
-    window_.classList.add('open');
+  function getWindowElement(windowOrId) {
+    return typeof windowOrId === 'string'
+      ? document.getElementById(windowOrId)
+      : windowOrId;
   }
 
-  function closeWindow() {
-    window_.classList.remove('open');
-    window_.classList.add('close');
-    window_.addEventListener('animationend', function handler() {
-      window_.classList.remove('close');
-      overlay.classList.remove('visible');
-      window_.removeEventListener('animationend', handler);
+  function getOverlayForWindow(windowEl) {
+    if (!windowEl) return null;
+
+    if (windowEl.dataset.overlayId) {
+      return document.getElementById(windowEl.dataset.overlayId);
+    }
+
+    const previousEl = windowEl.previousElementSibling;
+
+    return previousEl && previousEl.classList.contains('resume-overlay')
+      ? previousEl
+      : null;
+  }
+
+  function setEmbeddedPointerEvents(windowEl, value) {
+    windowEl.querySelectorAll('iframe, object, embed').forEach(function (el) {
+      el.style.pointerEvents = value;
     });
   }
 
-  function setWindowRect(left, top, width, height) {
-    window_.classList.add('positioned');
-    window_.style.left = `${left}px`;
-    window_.style.top = `${top}px`;
-    window_.style.width = `${width}px`;
-    window_.style.height = `${height}px`;
-    window_.style.transform = 'none';
-  }
+  function bringWindowToFront(windowEl, overlayEl) {
+    topWindowZIndex += 2;
 
-  function setIframePointerEvents(value) {
-    if (iframe) {
-      iframe.style.pointerEvents = value;
-    }
-  }
-
-  function startDrag(e) {
-    if (e.target.closest('.tl') || activeResize) return;
-
-    e.preventDefault();
-
-    const rect = window_.getBoundingClientRect();
-
-    activeDrag = {
-      offsetX: e.clientX - rect.left,
-      offsetY: e.clientY - rect.top,
-      width: rect.width,
-      height: rect.height
-    };
-
-    setWindowRect(rect.left, rect.top, rect.width, rect.height);
-    window_.classList.add('dragging');
-    setIframePointerEvents('none');
-
-    document.addEventListener('mousemove', dragWindow);
-    document.addEventListener('mouseup', stopDrag);
-  }
-
-  function dragWindow(e) {
-    if (!activeDrag) return;
-
-    const nextLeft = e.clientX - activeDrag.offsetX;
-    const nextTop = e.clientY - activeDrag.offsetY;
-
-    setWindowRect(nextLeft, nextTop, activeDrag.width, activeDrag.height);
-  }
-
-  function stopDrag() {
-    if (!activeDrag) return;
-
-    activeDrag = null;
-    window_.classList.remove('dragging');
-    setIframePointerEvents('');
-
-    document.removeEventListener('mousemove', dragWindow);
-    document.removeEventListener('mouseup', stopDrag);
-  }
-
-  function startResize(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const rect = window_.getBoundingClientRect();
-    const direction = e.currentTarget.dataset.resizeHandle;
-
-    activeResize = {
-      direction,
-      startX: e.clientX,
-      startY: e.clientY,
-      startLeft: rect.left,
-      startTop: rect.top,
-      startWidth: rect.width,
-      startHeight: rect.height
-    };
-
-    setWindowRect(rect.left, rect.top, rect.width, rect.height);
-    window_.classList.add('resizing');
-
-    setIframePointerEvents('none');
-
-    document.addEventListener('mousemove', resizeWindow);
-    document.addEventListener('mouseup', stopResize);
-  }
-
-  function resizeWindow(e) {
-    if (!activeResize) return;
-
-    const dx = e.clientX - activeResize.startX;
-    const dy = e.clientY - activeResize.startY;
-    const direction = activeResize.direction;
-
-    let nextLeft = activeResize.startLeft;
-    let nextTop = activeResize.startTop;
-    let nextWidth = activeResize.startWidth;
-    let nextHeight = activeResize.startHeight;
-
-    if (direction.includes('e')) {
-      nextWidth = Math.max(minWidth, activeResize.startWidth + dx);
+    if (overlayEl) {
+      overlayEl.style.zIndex = topWindowZIndex;
     }
 
-    if (direction.includes('s')) {
-      nextHeight = Math.max(minHeight, activeResize.startHeight + dy);
-    }
-
-    if (direction.includes('w')) {
-      nextWidth = Math.max(minWidth, activeResize.startWidth - dx);
-      nextLeft = activeResize.startLeft + activeResize.startWidth - nextWidth;
-    }
-
-    if (direction.includes('n')) {
-      nextHeight = Math.max(minHeight, activeResize.startHeight - dy);
-      nextTop = activeResize.startTop + activeResize.startHeight - nextHeight;
-    }
-
-    setWindowRect(nextLeft, nextTop, nextWidth, nextHeight);
+    windowEl.style.zIndex = topWindowZIndex + 1;
   }
 
-  function stopResize() {
-    if (!activeResize) return;
+  function setupWindow(windowEl) {
+    windowEl = getWindowElement(windowEl);
 
-    activeResize = null;
-    window_.classList.remove('resizing');
+    if (!windowEl) return null;
 
-    setIframePointerEvents('');
+    if (windowEl.__macWindow) {
+      return windowEl.__macWindow;
+    }
 
-    document.removeEventListener('mousemove', resizeWindow);
-    document.removeEventListener('mouseup', stopResize);
-  }
+    const overlayEl = getOverlayForWindow(windowEl);
+    const closeBtn = windowEl.querySelector('.tl-red');
+    const titlebar = windowEl.querySelector('.resume-titlebar');
+    const resizeHandles = windowEl.querySelectorAll('[data-resize-handle]');
+    let activeResize = null;
+    let activeWindowDrag = null;
 
-  icon.addEventListener('click', function () {
-    icon.classList.remove('bounce');
-    void icon.offsetWidth;
-    icon.classList.add('bounce');
-    icon.addEventListener('animationend', function handler() {
-      icon.classList.remove('bounce');
-      icon.removeEventListener('animationend', handler);
-      openWindow();
+    function openWindow() {
+      bringWindowToFront(windowEl, overlayEl);
+
+      if (overlayEl) {
+        overlayEl.classList.add('visible');
+        overlayEl.setAttribute('aria-hidden', 'false');
+      }
+
+      windowEl.style.display = '';
+      windowEl.classList.remove('close');
+      windowEl.classList.add('open');
+    }
+
+    function closeWindow() {
+      windowEl.classList.remove('open');
+      windowEl.classList.add('close');
+
+      windowEl.addEventListener('animationend', function handler() {
+        windowEl.classList.remove('close');
+
+        if (overlayEl) {
+          overlayEl.classList.remove('visible');
+          overlayEl.setAttribute('aria-hidden', 'true');
+        }
+
+        windowEl.removeEventListener('animationend', handler);
+      });
+    }
+
+    function setWindowRect(left, top, width, height) {
+      windowEl.classList.add('positioned');
+      windowEl.style.left = `${left}px`;
+      windowEl.style.top = `${top}px`;
+      windowEl.style.width = `${width}px`;
+      windowEl.style.height = `${height}px`;
+      windowEl.style.transform = 'none';
+    }
+
+    function startWindowDrag(e) {
+      if (e.button !== 0 || e.target.closest('.tl') || activeResize) return;
+
+      e.preventDefault();
+      bringWindowToFront(windowEl, overlayEl);
+
+      const rect = windowEl.getBoundingClientRect();
+
+      activeWindowDrag = {
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top,
+        width: rect.width,
+        height: rect.height
+      };
+
+      setWindowRect(rect.left, rect.top, rect.width, rect.height);
+      windowEl.classList.add('dragging');
+      setEmbeddedPointerEvents(windowEl, 'none');
+
+      document.addEventListener('mousemove', dragWindow);
+      document.addEventListener('mouseup', stopWindowDrag);
+    }
+
+    function dragWindow(e) {
+      if (!activeWindowDrag) return;
+
+      const nextLeft = e.clientX - activeWindowDrag.offsetX;
+      const nextTop = e.clientY - activeWindowDrag.offsetY;
+
+      setWindowRect(nextLeft, nextTop, activeWindowDrag.width, activeWindowDrag.height);
+    }
+
+    function stopWindowDrag() {
+      if (!activeWindowDrag) return;
+
+      activeWindowDrag = null;
+      windowEl.classList.remove('dragging');
+      setEmbeddedPointerEvents(windowEl, '');
+
+      document.removeEventListener('mousemove', dragWindow);
+      document.removeEventListener('mouseup', stopWindowDrag);
+    }
+
+    function startResize(e) {
+      if (e.button !== 0) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      bringWindowToFront(windowEl, overlayEl);
+
+      const rect = windowEl.getBoundingClientRect();
+      const direction = e.currentTarget.dataset.resizeHandle;
+
+      activeResize = {
+        direction,
+        startX: e.clientX,
+        startY: e.clientY,
+        startLeft: rect.left,
+        startTop: rect.top,
+        startWidth: rect.width,
+        startHeight: rect.height
+      };
+
+      setWindowRect(rect.left, rect.top, rect.width, rect.height);
+      windowEl.classList.add('resizing');
+      setEmbeddedPointerEvents(windowEl, 'none');
+
+      document.addEventListener('mousemove', resizeWindow);
+      document.addEventListener('mouseup', stopResize);
+    }
+
+    function resizeWindow(e) {
+      if (!activeResize) return;
+
+      const dx = e.clientX - activeResize.startX;
+      const dy = e.clientY - activeResize.startY;
+      const direction = activeResize.direction;
+
+      let nextLeft = activeResize.startLeft;
+      let nextTop = activeResize.startTop;
+      let nextWidth = activeResize.startWidth;
+      let nextHeight = activeResize.startHeight;
+
+      if (direction.includes('e')) {
+        nextWidth = Math.max(minWidth, activeResize.startWidth + dx);
+      }
+
+      if (direction.includes('s')) {
+        nextHeight = Math.max(minHeight, activeResize.startHeight + dy);
+      }
+
+      if (direction.includes('w')) {
+        nextWidth = Math.max(minWidth, activeResize.startWidth - dx);
+        nextLeft = activeResize.startLeft + activeResize.startWidth - nextWidth;
+      }
+
+      if (direction.includes('n')) {
+        nextHeight = Math.max(minHeight, activeResize.startHeight - dy);
+        nextTop = activeResize.startTop + activeResize.startHeight - nextHeight;
+      }
+
+      setWindowRect(nextLeft, nextTop, nextWidth, nextHeight);
+    }
+
+    function stopResize() {
+      if (!activeResize) return;
+
+      activeResize = null;
+      windowEl.classList.remove('resizing');
+      setEmbeddedPointerEvents(windowEl, '');
+
+      document.removeEventListener('mousemove', resizeWindow);
+      document.removeEventListener('mouseup', stopResize);
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        closeWindow();
+      });
+    }
+
+    if (overlayEl) {
+      overlayEl.addEventListener('click', closeWindow);
+    }
+
+    if (titlebar) {
+      titlebar.addEventListener('mousedown', startWindowDrag);
+    }
+
+    resizeHandles.forEach(function (handle) {
+      handle.addEventListener('mousedown', startResize);
     });
-  });
 
-  closeBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    closeWindow();
-  });
+    windowEl.__macWindow = {
+      open: openWindow,
+      close: closeWindow,
+      bringToFront: function () {
+        bringWindowToFront(windowEl, overlayEl);
+      }
+    };
 
-  overlay.addEventListener('click', closeWindow);
-  titlebar.addEventListener('mousedown', startDrag);
+    return windowEl.__macWindow;
+  }
 
-  resizeHandles.forEach(handle => {
-    handle.addEventListener('mousedown', startResize);
-  });
+  function setupDesktopIcon(iconEl, options) {
+    options = options || {};
+
+    if (!iconEl) return null;
+
+    if (iconEl.__desktopIcon) {
+      return iconEl.__desktopIcon;
+    }
+
+    let activeIconDrag = null;
+    let dragged = false;
+
+    if (!iconEl.hasAttribute('tabindex')) {
+      iconEl.setAttribute('tabindex', '0');
+    }
+
+    if (!iconEl.hasAttribute('role')) {
+      iconEl.setAttribute('role', 'button');
+    }
+
+    function getTargetWindow() {
+      const targetId = options.windowId || iconEl.dataset.windowTarget;
+
+      return targetId ? document.getElementById(targetId) : null;
+    }
+
+    function setIconPosition(left, top) {
+      iconEl.classList.add('positioned');
+      iconEl.style.left = `${left}px`;
+      iconEl.style.top = `${top}px`;
+      iconEl.style.transform = 'none';
+    }
+
+    function openIconTarget() {
+      const targetWindow = getTargetWindow();
+      const macWindow = targetWindow ? setupWindow(targetWindow) : null;
+      let opened = false;
+
+      function openOnce() {
+        if (opened) return;
+        opened = true;
+        iconEl.classList.remove('bounce');
+
+        if (options.onOpen) {
+          options.onOpen();
+          return;
+        }
+
+        if (macWindow) {
+          macWindow.open();
+        }
+      }
+
+      iconEl.classList.remove('bounce');
+      void iconEl.offsetWidth;
+      iconEl.classList.add('bounce');
+
+      iconEl.addEventListener('animationend', function handler() {
+        iconEl.removeEventListener('animationend', handler);
+        openOnce();
+      });
+
+      setTimeout(openOnce, 600);
+    }
+
+    function startIconDrag(e) {
+      if (e.button !== 0) return;
+
+      e.preventDefault();
+
+      const rect = iconEl.getBoundingClientRect();
+
+      activeIconDrag = {
+        startX: e.clientX,
+        startY: e.clientY,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top,
+        width: rect.width,
+        height: rect.height
+      };
+      dragged = false;
+
+      document.addEventListener('mousemove', dragIcon);
+      document.addEventListener('mouseup', stopIconDrag);
+    }
+
+    function dragIcon(e) {
+      if (!activeIconDrag) return;
+
+      const dx = e.clientX - activeIconDrag.startX;
+      const dy = e.clientY - activeIconDrag.startY;
+
+      if (!dragged && Math.hypot(dx, dy) < 4) return;
+
+      dragged = true;
+      iconEl.classList.add('dragging');
+
+      const maxLeft = Math.max(0, window.innerWidth - activeIconDrag.width);
+      const maxTop = Math.max(32, window.innerHeight - activeIconDrag.height);
+      const nextLeft = Math.min(maxLeft, Math.max(0, e.clientX - activeIconDrag.offsetX));
+      const nextTop = Math.min(maxTop, Math.max(32, e.clientY - activeIconDrag.offsetY));
+
+      setIconPosition(nextLeft, nextTop);
+    }
+
+    function stopIconDrag() {
+      if (!activeIconDrag) return;
+
+      const shouldOpen = !dragged;
+
+      activeIconDrag = null;
+      dragged = false;
+      iconEl.classList.remove('dragging');
+
+      document.removeEventListener('mousemove', dragIcon);
+      document.removeEventListener('mouseup', stopIconDrag);
+
+      if (shouldOpen) {
+        openIconTarget();
+      }
+    }
+
+    iconEl.addEventListener('mousedown', startIconDrag);
+    iconEl.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+
+      e.preventDefault();
+      openIconTarget();
+    });
+
+    iconEl.__desktopIcon = {
+      open: openIconTarget,
+      setPosition: setIconPosition
+    };
+
+    return iconEl.__desktopIcon;
+  }
+
+  window.macDesktop = {
+    setupWindow,
+    setupDesktopIcon,
+    openWindow: function (windowOrId) {
+      const macWindow = setupWindow(windowOrId);
+
+      if (macWindow) {
+        macWindow.open();
+      }
+    }
+  };
+
+  document.querySelectorAll('.resume-window').forEach(setupWindow);
+
+  const resumeIcon = document.getElementById('resumeIcon');
+
+  if (resumeIcon) {
+    resumeIcon.dataset.windowTarget = 'resumeWindow';
+    setupDesktopIcon(resumeIcon);
+  }
 });
