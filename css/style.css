@@ -103,6 +103,8 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  padding-top: 32px;
+  box-sizing: border-box;
   opacity: 0;
   transition: opacity 0.8s ease-out;
 }
@@ -126,15 +128,22 @@ body {
 
 /* Status bar layout */
 .status-bar {
-  position: absolute;
-  top: 10px;
+  position: fixed;
+  top: 0;
   left: 0;
   right: 0;
+  height: 32px;
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 32px);
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(30,30,30,0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  z-index: 1000;
 }
 
 .left-content {
@@ -145,14 +154,20 @@ body {
 .right-content {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  height: 100%;
 }
 
-/* Time style */
-.time {
-  font-size: 15px;
+.time,
+.menu-clock {
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: -0.3px;
+  letter-spacing: 0;
+  color: rgba(255,255,255,0.92);
+}
+
+.menu-clock {
+  white-space: nowrap;
 }
 
 /* Icons */
