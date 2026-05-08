@@ -5,6 +5,10 @@
     "path": "desktop-files/Certificates",
     "files": [
       {
+        "name": "Code in Place.pdf",
+        "path": "desktop-files/Certificates/Code in Place.pdf"
+      },
+      {
         "name": "CS50P.pdf",
         "path": "desktop-files/Certificates/CS50P.pdf"
       }
