@@ -688,16 +688,21 @@ body {
   align-items: center;
   gap: 12px;
   padding: 8px 10px;
-  border-radius: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0;
   color: rgba(255,255,255,0.92);
   background: transparent;
   cursor: pointer;
-  transition: background 0.14s ease;
+  transition: background 0.15s ease;
+}
+
+.folder-file-row:last-child {
+  border-bottom: 0;
 }
 
 .folder-file-row:hover,
 .folder-file-row:focus-visible {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
   outline: none;
 }
 
