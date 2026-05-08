@@ -1,5 +1,16 @@
 [
   {
+    "type": "folder",
+    "name": "Certificates",
+    "path": "desktop-files/Certificates",
+    "files": [
+      {
+        "name": "CS50P.pdf",
+        "path": "desktop-files/Certificates/CS50P.pdf"
+      }
+    ]
+  },
+  {
     "type": "file",
     "name": "resume.pdf",
     "path": "desktop-files/resume.pdf"
