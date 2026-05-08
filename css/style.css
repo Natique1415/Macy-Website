@@ -716,6 +716,21 @@ body {
   font-weight: 700;
 }
 
+.folder-file-icon.file-type-pdf,
+.spotlight-file-icon.file-type-pdf {
+  color: rgba(255,82,82,0.95);
+}
+
+.folder-file-icon.file-type-image,
+.spotlight-file-icon.file-type-image {
+  color: rgba(77,214,123,0.95);
+}
+
+.folder-file-icon.file-type-other,
+.spotlight-file-icon.file-type-other {
+  color: rgba(210,210,210,0.85);
+}
+
 .folder-file-name {
   min-width: 0;
   overflow: hidden;

@@ -25,9 +25,51 @@ document.addEventListener('DOMContentLoaded', function () {
     return wrapper.firstElementChild;
   }
 
+  function getFileExtension(fileName) {
+    const extension = String(fileName)
+      .split('/')
+      .pop()
+      .split('.')
+      .pop()
+      .replace(/[^a-z0-9]/gi, '')
+      .slice(0, 4)
+      .toUpperCase();
+
+    return extension || 'FILE';
+  }
+
+  function getFileTypeClass(fileName) {
+    const extension = getFileExtension(fileName).toLowerCase();
+
+    if (extension === 'pdf') {
+      return 'file-type-pdf';
+    }
+
+    if (['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'].includes(extension)) {
+      return 'file-type-image';
+    }
+
+    return 'file-type-other';
+  }
+
+  function getFileTypeColor(fileName) {
+    const typeClass = getFileTypeClass(fileName);
+
+    if (typeClass === 'file-type-pdf') {
+      return 'rgba(255,82,82,0.9)';
+    }
+
+    if (typeClass === 'file-type-image') {
+      return 'rgba(77,214,123,0.9)';
+    }
+
+    return 'rgba(210,210,210,0.85)';
+  }
+
   function createFileSvg(fileName) {
     const wrapper = document.createElement('div');
-    const extension = String(fileName).split('.').pop().slice(0, 4).toUpperCase();
+    const extension = getFileExtension(fileName);
+    const labelColor = getFileTypeColor(fileName);
 
     wrapper.innerHTML = `
       <svg class="desktop-file-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 72" fill="none" aria-hidden="true">
@@ -37,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <rect x="11" y="32" width="28" height="2.5" rx="1.25" fill="rgba(255,255,255,0.7)"/>
         <rect x="11" y="40" width="22" height="2.5" rx="1.25" fill="rgba(255,255,255,0.5)"/>
         <rect x="11" y="48" width="25" height="2.5" rx="1.25" fill="rgba(255,255,255,0.5)"/>
-        <text x="30" y="23" text-anchor="middle" fill="rgba(255,82,82,0.9)" font-size="8.5" font-family="SF Pro Display, Inter, sans-serif" font-weight="700">${extension || 'FILE'}</text>
+        <text x="30" y="23" text-anchor="middle" fill="${labelColor}" font-size="8.5" font-family="SF Pro Display, Inter, sans-serif" font-weight="700">${extension}</text>
       </svg>
     `;
 
@@ -105,8 +147,8 @@ document.addEventListener('DOMContentLoaded', function () {
       openFileUrl(fileUrl);
     });
 
-    fileIcon.className = 'folder-file-icon';
-    fileIcon.textContent = 'FILE';
+    fileIcon.className = `folder-file-icon ${getFileTypeClass(fileName)}`;
+    fileIcon.textContent = getFileExtension(fileName);
 
     name.className = 'folder-file-name';
     name.textContent = fileName;
@@ -281,6 +323,8 @@ document.addEventListener('DOMContentLoaded', function () {
           name: fileName,
           description: 'Open file',
           iconType: 'file',
+          extension: getFileExtension(fileName),
+          fileTypeClass: getFileTypeClass(fileName),
           action: function () {
             openFileUrl(fileUrl);
           }
@@ -326,6 +370,8 @@ document.addEventListener('DOMContentLoaded', function () {
           name: fileName,
           description: folderName,
           iconType: 'file',
+          extension: getFileExtension(fileName),
+          fileTypeClass: getFileTypeClass(fileName),
           action: function () {
             openFileUrl(fileUrl);
           }

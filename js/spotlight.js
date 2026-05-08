@@ -50,6 +50,37 @@ document.addEventListener('DOMContentLoaded', function () {
     return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
+  function getFileExtension(fileName) {
+    const extension = String(fileName)
+      .split('/')
+      .pop()
+      .split('.')
+      .pop()
+      .replace(/[^a-z0-9]/gi, '')
+      .slice(0, 4)
+      .toUpperCase();
+
+    return extension || 'FILE';
+  }
+
+  function getFileTypeClass(item) {
+    if (item.fileTypeClass) {
+      return item.fileTypeClass;
+    }
+
+    const extension = getFileExtension(item.extension || item.name).toLowerCase();
+
+    if (extension === 'pdf') {
+      return 'file-type-pdf';
+    }
+
+    if (['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'].includes(extension)) {
+      return 'file-type-image';
+    }
+
+    return 'file-type-other';
+  }
+
   function highlightMatch(text, query) {
     const safeText = escapeHtml(text);
 
@@ -80,7 +111,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (item.iconType === 'file') {
-      return '<span class="spotlight-file-icon" aria-hidden="true">FILE</span>';
+      const extension = item.extension || getFileExtension(item.name);
+
+      return `<span class="spotlight-file-icon ${getFileTypeClass(item)}" aria-hidden="true">${escapeHtml(extension)}</span>`;
     }
 
     return '<span class="spotlight-pdf-icon" aria-hidden="true">PDF</span>';
