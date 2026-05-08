@@ -3,6 +3,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const minHeight = 300;
   let topWindowZIndex = 901;
 
+  function updateDockVisibility() {
+    const dock = document.querySelector('.bottom-icons');
+
+    if (!dock) return;
+
+    const hasVisibleWindow = !!document.querySelector('.resume-window.open, .resume-window.close');
+
+    dock.classList.toggle('dock-hidden', hasVisibleWindow);
+  }
+
   function getWindowElement(windowOrId) {
     return typeof windowOrId === 'string'
       ? document.getElementById(windowOrId)
@@ -66,11 +76,13 @@ document.addEventListener('DOMContentLoaded', function () {
       windowEl.style.display = '';
       windowEl.classList.remove('close');
       windowEl.classList.add('open');
+      updateDockVisibility();
     }
 
     function closeWindow() {
       windowEl.classList.remove('open');
       windowEl.classList.add('close');
+      updateDockVisibility();
 
       windowEl.addEventListener('animationend', function handler() {
         windowEl.classList.remove('close');
@@ -81,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         windowEl.removeEventListener('animationend', handler);
+        updateDockVisibility();
       });
     }
 

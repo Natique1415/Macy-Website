@@ -208,6 +208,12 @@ body {
   justify-content: center;
   z-index: 10;
   padding-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+
+.bottom-icons.dock-hidden {
+  transform: translateX(-50%) translateY(100%);
+  pointer-events: none;
 }
 
 .icon-group {
