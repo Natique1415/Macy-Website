@@ -228,7 +228,13 @@ document.addEventListener('DOMContentLoaded', function () {
     return icon;
   }
 
-  function createFolderWindow(folderName, files, idSuffix) {
+  function getDisplayPath(pathValue, fallbackName) {
+    const rawPath = pathValue || `desktop-files/${fallbackName}`;
+
+    return String(rawPath).split('/').filter(Boolean).join(' / ');
+  }
+
+  function createFolderWindow(folderName, files, idSuffix, folderPath) {
     const overlay = document.createElement('div');
     const windowEl = document.createElement('div');
     const titlebar = document.createElement('div');
@@ -237,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const minimize = document.createElement('span');
     const zoom = document.createElement('span');
     const title = document.createElement('span');
+    const locationBar = document.createElement('div');
     const body = document.createElement('div');
     const list = document.createElement('div');
 
@@ -263,6 +270,9 @@ document.addEventListener('DOMContentLoaded', function () {
     trafficLights.append(close, minimize, zoom);
     titlebar.append(trafficLights, title);
 
+    locationBar.className = 'folder-location-bar';
+    locationBar.textContent = getDisplayPath(folderPath, folderName);
+
     body.className = 'resume-body folder-window-body';
     list.className = 'folder-file-list';
 
@@ -278,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     body.appendChild(list);
-    windowEl.append(titlebar, body);
+    windowEl.append(titlebar, locationBar, body);
 
     return { overlay, windowEl };
   }
@@ -336,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const folderName = String(item.name);
       const files = Array.isArray(item.files) ? item.files : [];
       const idSuffix = getSafeId(folderName, index);
-      const folderWindow = createFolderWindow(folderName, files, idSuffix);
+      const folderWindow = createFolderWindow(folderName, files, idSuffix, item.path);
       const folderIcon = createFolderIcon(folderName, folderWindow.windowEl.id, desktopIndex);
 
       desktopIndex += 1;

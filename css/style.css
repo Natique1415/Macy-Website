@@ -669,6 +669,25 @@ body {
   height: 520px;
 }
 
+.folder-location-bar {
+  height: 30px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.45);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
 .folder-window-body {
   overflow: auto;
   background: rgba(24,24,24,0.98);
