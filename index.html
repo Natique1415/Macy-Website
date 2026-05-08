@@ -33,6 +33,12 @@
 
       <!-- Battery/Wifi/Cellular Section -->
       <div class="right-content">
+        <button class="spotlight-trigger" id="spotlightTrigger" aria-label="Open Spotlight search">
+          <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="2" />
+            <path d="M12.5 12.5L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
         <div class="menu-clock" id="menuClock">--:-- --</div>
         <object data="icons/cellular-connection.svg" type="image/svg+xml" class="icon"></object>
         <object data="icons/wifi.svg" type="image/svg+xml" class="icon"></object>
@@ -92,6 +98,21 @@
       </div>
     </div>
 
+    <!-- Spotlight Search -->
+    <div class="spotlight-overlay" id="spotlightOverlay" aria-hidden="true">
+      <div class="spotlight-panel" role="dialog" aria-modal="true" aria-label="Spotlight search">
+        <div class="spotlight-search-row">
+          <svg class="spotlight-search-icon" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="2" />
+            <path d="M12.5 12.5L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <input id="spotlightInput" class="spotlight-input" type="text" autocomplete="off" spellcheck="false"
+            placeholder="Spotlight Search" />
+        </div>
+        <div class="spotlight-results" id="spotlightResults" role="listbox"></div>
+      </div>
+    </div>
+
     <!-- Icons Section-->
     <div class="bottom-icons">
       <div class="icon-group" id="mac-dock">
@@ -122,6 +143,7 @@
     <script src="js/battery.js"></script>
     <script src="js/dock.js"></script>
     <script src="js/resume.js"></script>
+    <script src="js/spotlight.js"></script>
 </body>
 
 </html>

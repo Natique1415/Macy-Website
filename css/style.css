@@ -170,6 +170,25 @@ body {
   white-space: nowrap;
 }
 
+.spotlight-trigger {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.9);
+  background: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.spotlight-trigger:hover {
+  background: rgba(255,255,255,0.08);
+}
+
 /* Icons */
 .icon {
   width: 18px;
@@ -577,6 +596,143 @@ body {
   height: 100%;
   border: none;
   display: block;
+}
+
+/* ===== SPOTLIGHT SEARCH ===== */
+.spotlight-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 18vh;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 2000;
+}
+
+.spotlight-overlay.visible {
+  display: flex;
+}
+
+.spotlight-panel {
+  width: min(620px, calc(100vw - 32px));
+  overflow: hidden;
+  background: rgba(40,40,40,0.9);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  box-shadow: 0 28px 90px rgba(0,0,0,0.65);
+  color: white;
+}
+
+.spotlight-search-row {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.spotlight-search-icon {
+  color: rgba(255,255,255,0.55);
+  flex-shrink: 0;
+}
+
+.spotlight-input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.96);
+  font-family: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.spotlight-input::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+.spotlight-results {
+  max-height: 320px;
+  padding: 8px;
+}
+
+.spotlight-result {
+  width: 100%;
+  border: 0;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+  font-family: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  transition: background 0.12s ease;
+}
+
+.spotlight-result:hover,
+.spotlight-result.active {
+  background: rgba(255,255,255,0.08);
+}
+
+.spotlight-result-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.spotlight-result-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.spotlight-pdf-icon {
+  width: 24px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,95,87,0.95);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.spotlight-result-text {
+  min-width: 0;
+}
+
+.spotlight-result-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.95);
+}
+
+.spotlight-result-description {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+}
+
+.spotlight-highlight {
+  color: #fff;
+  background: rgba(255,255,255,0.18);
+  border-radius: 3px;
 }
 
 /* Responsive adjustments */
