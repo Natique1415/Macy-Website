@@ -989,3 +989,31 @@ body {
     height: 30px;
   }
 }
+
+/* Custom Cursors */
+body {
+  cursor: url('../images/mac-cursor.png') 0 0, auto;
+}
+
+input, textarea {
+  cursor: url('../images/mac-cursor.png') 0 0, text !important;
+}
+
+a, button, 
+.skip-button, 
+.spotlight-trigger, 
+.desktop-icon, 
+.folder-file-row, 
+.tl, 
+.spotlight-result,
+.icon-item {
+  cursor: url('../images/mac-cursor-pointer.png') 0 0, pointer !important;
+}
+
+.desktop-icon.dragging {
+  cursor: url('../images/mac-cursor-pointer.png') 0 0, grabbing !important;
+}
+
+.tl-yellow, .tl-green {
+  cursor: url('../images/mac-cursor.png') 0 0, default !important;
+}
