@@ -139,10 +139,10 @@ body {
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  background: rgba(30,30,30,0.6);
+  background: rgba(30, 30, 30, 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 1000;
 }
 
@@ -163,7 +163,7 @@ body {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .menu-clock {
@@ -178,7 +178,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   background: transparent;
   border-radius: 5px;
   cursor: pointer;
@@ -186,7 +186,7 @@ body {
 }
 
 .spotlight-trigger:hover {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Icons */
@@ -311,11 +311,11 @@ body {
 }
 
 .desktop-icon:hover {
-  background: rgba(99,149,255,0.2);
+  background: rgba(99, 149, 255, 0.2);
 }
 
 .desktop-icon.selected {
-  background: rgba(99,149,255,0.35);
+  background: rgba(99, 149, 255, 0.35);
 }
 
 .desktop-icon.positioned {
@@ -333,7 +333,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
   transition: filter 0.18s ease, transform 0.18s ease;
 }
 
@@ -343,11 +343,11 @@ body {
 }
 
 .desktop-icon:hover .desktop-icon-img {
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)) brightness(1.35);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5)) brightness(1.35);
 }
 
 .desktop-icon.dragging .desktop-icon-img {
-  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.65)) brightness(1.25);
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.65)) brightness(1.25);
 }
 
 .desktop-folder-icon {
@@ -382,13 +382,13 @@ body {
   font-family: "SF Pro Display", "Inter", sans-serif;
   font-weight: 500;
   text-align: center;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.7);
   letter-spacing: 0.2px;
   white-space: nowrap;
   max-width: 76px;
   overflow: hidden;
   text-overflow: ellipsis;
-  background: rgba(0,0,0,0.25);
+  background: rgba(0, 0, 0, 0.25);
   padding: 1px 6px;
   border-radius: 4px;
   box-sizing: border-box;
@@ -404,12 +404,29 @@ body {
 }
 
 @keyframes desktopIconBounce {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(1.25); }
-  55%  { transform: scale(0.92); }
-  75%  { transform: scale(1.1); }
-  90%  { transform: scale(0.97); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.25);
+  }
+
+  55% {
+    transform: scale(0.92);
+  }
+
+  75% {
+    transform: scale(1.1);
+  }
+
+  90% {
+    transform: scale(0.97);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .desktop-icon.bounce .desktop-icon-img {
@@ -421,7 +438,7 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   z-index: 900;
@@ -442,9 +459,9 @@ body {
   height: 85vh;
   min-width: 400px;
   min-height: 300px;
-  background: rgba(30,30,30,0.95);
+  background: rgba(30, 30, 30, 0.95);
   border-radius: 12px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.75);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75);
   overflow: hidden;
   z-index: 901;
   opacity: 0;
@@ -535,13 +552,27 @@ body {
 }
 
 @keyframes windowOpen {
-  from { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
-  to   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+  from {
+    transform: translate(-50%, -50%) scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes windowClose {
-  from { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
-  to   { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+  }
 }
 
 .resume-window.positioned {
@@ -557,13 +588,23 @@ body {
 }
 
 @keyframes positionedWindowOpen {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes positionedWindowClose {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 .resume-titlebar {
@@ -571,8 +612,8 @@ body {
   align-items: center;
   height: 42px;
   min-height: 42px;
-  background: rgba(45,45,45,0.98);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(45, 45, 45, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0 14px;
   position: relative;
   flex-shrink: 0;
@@ -595,9 +636,19 @@ body {
   transition: filter 0.15s ease;
 }
 
-.tl-red    { background: #ff5f57; }
-.tl-yellow { background: #febc2e; cursor: default; }
-.tl-green  { background: #28c840; cursor: default; }
+.tl-red {
+  background: #ff5f57;
+}
+
+.tl-yellow {
+  background: #febc2e;
+  cursor: default;
+}
+
+.tl-green {
+  background: #28c840;
+  cursor: default;
+}
 
 .tl::before,
 .tl::after {
@@ -607,7 +658,7 @@ body {
   left: 50%;
   width: 6px;
   height: 1.3px;
-  background: rgba(0,0,0,0.58);
+  background: rgba(0, 0, 0, 0.58);
   border-radius: 999px;
   opacity: 0;
   transition: opacity 0.12s ease;
@@ -642,13 +693,15 @@ body {
   opacity: 1;
 }
 
-.tl-red:hover { filter: brightness(1.2); }
+.tl-red:hover {
+  filter: brightness(1.2);
+}
 
 .resume-title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 13px;
   font-family: "SF Pro Display", "Inter", sans-serif;
   font-weight: 500;
@@ -681,9 +734,9 @@ body {
   display: flex;
   align-items: center;
   padding: 0 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
-  color: rgba(255,255,255,0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.45);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0;
@@ -696,7 +749,7 @@ body {
 
 .folder-window-body {
   overflow: auto;
-  background: rgba(24,24,24,0.98);
+  background: rgba(24, 24, 24, 0.98);
 }
 
 .folder-file-list {
@@ -713,9 +766,9 @@ body {
   align-items: center;
   gap: 12px;
   padding: 8px 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255, 255, 255, 0.92);
   background: transparent;
   cursor: pointer;
   transition: background 0.15s ease;
@@ -727,7 +780,7 @@ body {
 
 .folder-file-row:hover,
 .folder-file-row:focus-visible {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   outline: none;
 }
 
@@ -739,26 +792,26 @@ body {
   align-items: center;
   justify-content: center;
   justify-self: center;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: rgba(255,255,255,0.72);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 8px;
   font-weight: 700;
 }
 
 .folder-file-icon.file-type-pdf,
 .spotlight-file-icon.file-type-pdf {
-  color: rgba(255,82,82,0.95);
+  color: rgba(255, 82, 82, 0.95);
 }
 
 .folder-file-icon.file-type-image,
 .spotlight-file-icon.file-type-image {
-  color: rgba(77,214,123,0.95);
+  color: rgba(77, 214, 123, 0.95);
 }
 
 .folder-file-icon.file-type-other,
 .spotlight-file-icon.file-type-other {
-  color: rgba(210,210,210,0.85);
+  color: rgba(210, 210, 210, 0.85);
 }
 
 .folder-file-name {
@@ -775,8 +828,8 @@ body {
   padding: 6px 10px;
   border-radius: 6px;
   color: #fff;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   font-size: 12px;
   font-weight: 600;
   text-align: center;
@@ -786,8 +839,8 @@ body {
 
 .folder-file-open:hover,
 .folder-file-open:focus-visible {
-  background: rgba(255,255,255,0.16);
-  border-color: rgba(255,255,255,0.22);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.22);
   outline: none;
 }
 
@@ -797,7 +850,7 @@ body {
 
 .folder-empty-state {
   padding: 34px 16px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 13px;
   font-weight: 500;
   text-align: center;
@@ -811,7 +864,7 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding-top: 18vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: 2000;
@@ -824,10 +877,10 @@ body {
 .spotlight-panel {
   width: min(620px, calc(100vw - 32px));
   overflow: hidden;
-  background: rgba(40,40,40,0.9);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(40, 40, 40, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  box-shadow: 0 28px 90px rgba(0,0,0,0.65);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.65);
   color: white;
 }
 
@@ -837,11 +890,11 @@ body {
   align-items: center;
   gap: 12px;
   padding: 0 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .spotlight-search-icon {
-  color: rgba(255,255,255,0.55);
+  color: rgba(255, 255, 255, 0.55);
   flex-shrink: 0;
 }
 
@@ -850,14 +903,14 @@ body {
   border: 0;
   outline: 0;
   background: transparent;
-  color: rgba(255,255,255,0.96);
+  color: rgba(255, 255, 255, 0.96);
   font-family: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 16px;
   font-weight: 500;
 }
 
 .spotlight-input::placeholder {
-  color: rgba(255,255,255,0.45);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .spotlight-results {
@@ -883,7 +936,7 @@ body {
 
 .spotlight-result:hover,
 .spotlight-result.active {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .spotlight-result-icon {
@@ -908,9 +961,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.14);
-  border: 1px solid rgba(255,255,255,0.22);
-  color: rgba(255,95,87,0.95);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 95, 87, 0.95);
   font-size: 9px;
   font-weight: 700;
 }
@@ -933,9 +986,9 @@ body {
   width: 24px;
   height: 28px;
   border-radius: 4px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 7px;
   font-weight: 700;
 }
@@ -948,7 +1001,7 @@ body {
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: rgba(255,255,255,0.95);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .spotlight-result-description {
@@ -956,12 +1009,12 @@ body {
   margin-top: 2px;
   font-size: 12px;
   font-weight: 500;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .spotlight-highlight {
   color: #fff;
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
   border-radius: 3px;
 }
 
@@ -995,16 +1048,18 @@ body {
   cursor: url('../images/mac-cursor.png') 0 0, auto;
 }
 
-input, textarea {
+input,
+textarea {
   cursor: url('../images/mac-cursor.png') 0 0, text !important;
 }
 
-a, button, 
-.skip-button, 
-.spotlight-trigger, 
-.desktop-icon, 
-.folder-file-row, 
-.tl, 
+a,
+button,
+.skip-button,
+.spotlight-trigger,
+.desktop-icon,
+.folder-file-row,
+.tl,
 .spotlight-result,
 .icon-item {
   cursor: url('../images/mac-cursor-pointer.png') 0 0, pointer !important;
@@ -1014,7 +1069,8 @@ a, button,
   cursor: url('../images/mac-cursor-pointer.png') 0 0, grabbing !important;
 }
 
-.tl-yellow, .tl-green {
+.tl-yellow,
+.tl-green {
   cursor: url('../images/mac-cursor.png') 0 0, default !important;
 }
 
@@ -1024,6 +1080,7 @@ a, button,
 }
 
 @media (max-width: 768px) {
+
   /* Hide desktop specific elements */
   .desktop-icon,
   .folder-window,
@@ -1033,7 +1090,7 @@ a, button,
   .spotlight-trigger {
     display: none !important;
   }
-  
+
   /* Mobile center layout */
   .mobile-center-content {
     display: flex;
@@ -1049,13 +1106,27 @@ a, button,
     width: 100%;
   }
 
+  @keyframes mobileFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .mobile-name {
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 600;
     color: white;
-    margin-bottom: 24px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    margin-bottom: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     font-family: "SF Pro Display", "Inter", sans-serif;
+    opacity: 0;
+    animation: mobileFadeIn 0.6s ease forwards;
   }
 
   .mobile-resume-icon {
@@ -1064,12 +1135,15 @@ a, button,
     align-items: center;
     text-decoration: none;
     cursor: pointer;
+    margin-top: 24px;
+    opacity: 0;
+    animation: mobileFadeIn 0.6s ease 0.2s forwards;
   }
 
   .mobile-resume-icon svg {
-    width: 60px;
-    height: 72px;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+    width: 48px;
+    height: 58px;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
   }
 
   .mobile-resume-label {
@@ -1077,8 +1151,8 @@ a, button,
     color: white;
     font-size: 13px;
     font-weight: 500;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    background: rgba(0,0,0,0.25);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.25);
     padding: 3px 8px;
     border-radius: 4px;
   }
@@ -1087,11 +1161,11 @@ a, button,
   .icon-item {
     transition: opacity 0.2s ease !important;
   }
-  
+
   .icon-item:hover .social-icon {
     transform: none !important;
   }
-  
+
   .icon-item:active {
     opacity: 0.6;
   }
@@ -1099,7 +1173,7 @@ a, button,
   .icon-item:active .social-icon {
     transform: none !important;
   }
-  
+
   .icon-label {
     display: none !important;
   }
