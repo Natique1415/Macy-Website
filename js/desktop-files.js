@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth <= 768) return;
   const mainContent = document.getElementById('mainContent');
 
   if (!mainContent) return;

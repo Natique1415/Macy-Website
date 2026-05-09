@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth <= 768) return;
   const trigger = document.getElementById('spotlightTrigger');
   const overlay = document.getElementById('spotlightOverlay');
   const input = document.getElementById('spotlightInput');

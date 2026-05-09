@@ -1,5 +1,6 @@
 // MacOS Dock Magnification Effect for Icon Group
 document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth <= 768) return;
   const dock = document.getElementById('mac-dock');
   const items = Array.from(dock.querySelectorAll('.icon-item'));
 

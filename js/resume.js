@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth <= 768) return;
   const minWidth = 400;
   const minHeight = 300;
   let topWindowZIndex = 901;
