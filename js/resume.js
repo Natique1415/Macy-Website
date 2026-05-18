@@ -223,7 +223,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (closeBtn) {
+      closeBtn.addEventListener('mousedown', function (e) {
+        e.stopPropagation();
+      });
+
       closeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
         e.stopPropagation();
         closeWindow();
       });

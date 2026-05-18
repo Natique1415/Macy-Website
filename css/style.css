@@ -470,7 +470,7 @@ body {
 
 .resize-handle {
   position: absolute;
-  z-index: 4;
+  z-index: 3;
 }
 
 .resize-handle-n {
@@ -623,30 +623,32 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
-  z-index: 1;
+  position: relative;
+  z-index: 5;
 }
 
 .tl {
-  width: 12px;
-  height: 12px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
   position: relative;
+  margin: -5px;
   transition: filter 0.15s ease;
 }
 
 .tl-red {
-  background: #ff5f57;
+  background: radial-gradient(circle at center, #ff5f57 0 6px, transparent 6.5px);
 }
 
 .tl-yellow {
-  background: #febc2e;
+  background: radial-gradient(circle at center, #febc2e 0 6px, transparent 6.5px);
   cursor: default;
 }
 
 .tl-green {
-  background: #28c840;
+  background: radial-gradient(circle at center, #28c840 0 6px, transparent 6.5px);
   cursor: default;
 }
 
