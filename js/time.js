@@ -22,7 +22,16 @@ function updateMenuTime() {
   const clockEl = document.getElementById("menuClock");
 
   if (greetingEl) {
-    greetingEl.textContent = getGreeting(hour);
+    const greetingText = document.createElement('span');
+    const nameText = document.createElement('span');
+
+    greetingText.className = 'greeting-text';
+    greetingText.textContent = getGreeting(hour);
+
+    nameText.className = 'greeting-name';
+    nameText.textContent = ", I'm Natique";
+
+    greetingEl.replaceChildren(greetingText, nameText);
   }
 
   if (clockEl) {
