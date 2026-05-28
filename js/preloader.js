@@ -16,6 +16,41 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fallback timer reference
     let fallbackTimer;
 
+    function applyDockGlassStyles() {
+        const dock = document.getElementById('mac-dock');
+
+        if (!dock) return;
+
+        dock.style.background = 'rgba(255, 255, 255, 0.2)';
+        dock.style.backdropFilter = 'blur(24px) contrast(1.05) brightness(1.0) saturate(1.01)';
+        dock.style.webkitBackdropFilter = 'blur(24px) contrast(1.05) brightness(1.0) saturate(1.01)';
+        dock.style.border = '1px solid rgba(255, 255, 255, 0.4)';
+        dock.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+    }
+
+    function forceDockRepaint() {
+        const dock = document.getElementById('mac-dock');
+
+        if (!dock) return;
+
+        dock.style.display = 'none';
+        void dock.offsetHeight;
+        dock.style.display = '';
+        void dock.offsetHeight;
+    }
+
+    function refreshDockGlassAfterReveal() {
+        function handleRevealComplete(event) {
+            if (event.target !== mainContent || event.propertyName !== 'opacity') return;
+
+            mainContent.removeEventListener('transitionend', handleRevealComplete);
+            forceDockRepaint();
+            applyDockGlassStyles();
+        }
+
+        mainContent.addEventListener('transitionend', handleRevealComplete);
+    }
+
     /**
      * Hide preloader and show main content with smooth transition
      */
@@ -25,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             preloader.style.display = 'none';
             mainContent.classList.add('show');
+            refreshDockGlassAfterReveal();
             cleanupPreloader();
         }, 800);
     }
@@ -36,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
         preloader.style.display = 'none';
         mainContent.classList.add('show');
         mainContent.style.opacity = '1'; // Immediate show, no fade
+        forceDockRepaint();
+        applyDockGlassStyles();
         console.log('Returning visitor - skipping boot video');
     }
 
