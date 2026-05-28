@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       name: 'Resume PDF',
       description: 'Open resume PDF',
-      url: 'https://natique1415.github.io/Macy-Website/resume.pdf',
+      url: 'desktop-files/Resume.pdf',
       iconType: 'pdf'
     }
   ];
