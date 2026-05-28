@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
       icon: 'icons/linkedin.svg'
     },
     {
+      name: 'Twitter',
+      description: 'Open Twitter profile',
+      url: 'https://x.com/NatiqueIbrar',
+      icon: 'icons/x.svg'
+    },
+    {
       name: 'Gmail',
       description: 'Compose email',
       url: 'mailto:ibrarnatique8@gmail.com',
@@ -26,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     {
       name: 'Resume PDF',
-      description: 'Open resume PDF',
+      description: 'Open Resume PDF',
       url: 'desktop-files/Resume.pdf',
       iconType: 'pdf'
     }
