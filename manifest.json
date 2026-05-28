@@ -5,8 +5,16 @@
     "path": "desktop-files/Certificates",
     "files": [
       {
+        "name": "2nd Round-6th Sharjah Chamber Award for Innovators.pdf",
+        "path": "desktop-files/Certificates/2nd Round-6th Sharjah Chamber Award for Innovators.pdf"
+      },
+      {
         "name": "Code in Place.pdf",
         "path": "desktop-files/Certificates/Code in Place.pdf"
+      },
+      {
+        "name": "CS50-SQL.pdf",
+        "path": "desktop-files/Certificates/CS50-SQL.pdf"
       },
       {
         "name": "CS50P.pdf",
